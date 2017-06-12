@@ -1,0 +1,12 @@
+horas			KEYWORD1
+minutos 		KEYWORD1
+intervalo		KEYWORD1
+huboCambio		KEYWORD1
+
+leer_hora 		KEYWORD2
+leer_minutos	KEYWORD2
+setClockMode 	KEYWORD2
+leer_temperatura KEYWORD2
+
+setear_hora		KEYWORD2
+setear_minutos	KEYWORD2
