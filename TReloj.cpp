@@ -96,6 +96,25 @@ void TReloj::leer_temperatura() {
 
 //------------------------------
 
+bool TReloj::huboCambio() {
+
+	leer_minutos();
+
+	// 34;
+
+	if ((minutos == acumulador ) || (acumulador == 0)) {
+		acumulador = minutos + intervalo;
+		Serial.println(acumulador, DEC);
+		Serial.println(minutos, DEC);
+		return true;
+	} else {
+		return false;
+	}
+
+}
+
+//------------------------------
+
 byte TReloj::decToBcd(byte val) {
 	return ( (val/10*16) + (val%10) );
 }

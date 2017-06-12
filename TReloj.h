@@ -22,7 +22,6 @@ public:
 	byte minutos;					// contiene los MINUTOS hora del reloj al ejecutar leer_minutos();
 	float fTemperatura;				// contiene la TEPERATURA que infora el reloj al ejecutar leer_temperatura();
 
-	bool huboCambio;				// true, cuando los minutos cambiaron pasando un determinado intervalo. false si no cambio.
 	byte intervalo;					// intervalo utilizado para "huboCambio" debe ser entre los valores 1 y 60.
 
 	TReloj();
@@ -34,6 +33,8 @@ public:
 
 	void setear_hora(byte bValor);		// ejemplo: setear_hora(17) setea la hora del reloj sin cambiar los minutos.
 	void setear_minutos(byte bValor);	// ejemplo: setear_minutos(23) setea los minutos del reloj sin cambiar la hora.
+
+	bool huboCambio();					// chequear si hubo cambio de minutos con respecto al valor "intervalo"
 
 };
 
