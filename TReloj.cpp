@@ -3,11 +3,13 @@
 //------------------------------
 
 TReloj::TReloj() {
+	intervalo = 1;
+	inicio = true;
 }
 
 //------------------------------
 
-void TReloj::leer_hora() {
+void TReloj::leerHoras() {
 	byte temp_buffer;	
 	
 	Wire.beginTransmission(ADDRESS_RELOJ);
@@ -17,12 +19,12 @@ void TReloj::leer_hora() {
 	Wire.requestFrom(ADDRESS_RELOJ, 1);
 	temp_buffer = Wire.read();
 
-	hora = bcdToDec(temp_buffer & 0b00111111);	
+	horas = bcdToDec(temp_buffer & 0b00111111);	
 }
 
 //------------------------------
 
-void TReloj::leer_minutos() {
+void TReloj::leerMinutos() {
 	Wire.beginTransmission(ADDRESS_RELOJ);
 	Wire.write(0x01);
 	Wire.endTransmission();
@@ -55,7 +57,7 @@ void TReloj::setClockMode() {
 
 //------------------------------
 
-void TReloj::setear_hora(byte bValor) {
+void TReloj::setearHoras(byte bValor) {
 	Wire.beginTransmission(ADDRESS_RELOJ);
 	Wire.write(uint8_t(0x02));
 	Wire.endTransmission();
@@ -70,7 +72,7 @@ void TReloj::setear_hora(byte bValor) {
 
 //------------------------------
 
-void TReloj::setear_minutos(byte bValor) {
+void TReloj::setearMinutos(byte bValor) {
 	Wire.beginTransmission(ADDRESS_RELOJ);
 	Wire.write(uint8_t(0x01));
 	Wire.write(decToBcd(bValor));	
@@ -79,7 +81,7 @@ void TReloj::setear_minutos(byte bValor) {
 
 //------------------------------
 
-void TReloj::leer_temperatura() {
+void TReloj::leerTemperatura() {
 	// Checks the internal thermometer on the DS3231 and returns the 
 	// temperature as a floating-point value.
 	byte temp;
@@ -98,14 +100,24 @@ void TReloj::leer_temperatura() {
 
 bool TReloj::huboCambio() {
 
-	leer_minutos();
+	leerHoras();
+	leerMinutos();
 
-	// 34;
-
-	if ((minutos == acumulador ) || (acumulador == 0)) {
+	if ((minutos == acumulador ) || (inicio)) {
 		acumulador = minutos + intervalo;
-		Serial.println(acumulador, DEC);
+		if (acumulador >= 60) { 
+			acumulador = acumulador - 60;
+		}
+
+		Serial.print("Horas: ");
+		Serial.println(horas, DEC);
+		Serial.print("Minutos: ");
 		Serial.println(minutos, DEC);
+
+		Serial.print("Acumulador: ");
+		Serial.println(acumulador, DEC);
+
+		inicio = false;
 		return true;
 	} else {
 		return false;

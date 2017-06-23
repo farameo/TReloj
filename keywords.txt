@@ -1,4 +1,4 @@
-horas			KEYWORD1
+hora 			KEYWORD1
 minutos 		KEYWORD1
 intervalo		KEYWORD1
 
